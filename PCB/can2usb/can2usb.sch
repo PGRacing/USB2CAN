@@ -1113,12 +1113,12 @@ $EndComp
 $Comp
 L Mechanical:MountingHole H3
 U 1 1 634CAEE0
-P 7650 5850
-F 0 "H3" H 7750 5896 50  0000 L CNN
-F 1 "MountingHole" H 7750 5805 50  0000 L CNN
-F 2 "MountingHole:MountingHole_2.2mm_M2" H 7650 5850 50  0001 C CNN
-F 3 "~" H 7650 5850 50  0001 C CNN
-	1    7650 5850
+P 7500 5900
+F 0 "H3" H 7600 5946 50  0000 L CNN
+F 1 "MountingHole" H 7600 5855 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.2mm_M2" H 7500 5900 50  0001 C CNN
+F 3 "~" H 7500 5900 50  0001 C CNN
+	1    7500 5900
 	1    0    0    -1  
 $EndComp
 $Comp
