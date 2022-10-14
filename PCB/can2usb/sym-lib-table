@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name can2usb_helper)(type Legacy)(uri ${KIPRJMOD}/can2usb_helper.lib)(options "")(descr ""))
+)
