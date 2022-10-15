@@ -1176,10 +1176,10 @@ F 44 "" H 5350 4225 50  0001 L BNN "PACKAGE_TYPE"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Mechanical:MountingHole H?
+L Mechanical:MountingHole H4
 U 1 1 63501990
 P 7525 6250
-F 0 "H?" H 7625 6296 50  0000 L CNN
+F 0 "H4" H 7625 6296 50  0000 L CNN
 F 1 "MountingHole" H 7625 6205 50  0000 L CNN
 F 2 "MountingHole:MountingHole_2.2mm_M2" H 7525 6250 50  0001 C CNN
 F 3 "~" H 7525 6250 50  0001 C CNN

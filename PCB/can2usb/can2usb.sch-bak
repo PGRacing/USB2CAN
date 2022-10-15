@@ -1121,6 +1121,8 @@ F 3 "" H 6375 4125 50  0001 C CNN
 	1    6375 4125
 	0    1    1    0   
 $EndComp
+Wire Wire Line
+	5950 4125 6150 4125
 $Comp
 L can2usb_helper:MIC5528-3.3YMT-TR U6
 U 1 1 634FAF85
@@ -1173,6 +1175,4 @@ F 44 "" H 5350 4225 50  0001 L BNN "PACKAGE_TYPE"
 	1    5350 4225
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5950 4125 6150 4125
 $EndSCHEMATC
