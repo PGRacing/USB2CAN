@@ -1,0 +1,33 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# ECS-.327-6-34R-TR
+#
+DEF ECS-.327-6-34R-TR Y 0 40 N N 1 L N
+F0 "Y" -201 100 50 H V L BNN
+F1 "ECS-.327-6-34R-TR" -201 -181 50 H V L BNN
+F2 "XTAL_ECS-.327-6-34R-TR" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "ECS Inc." 0 0 50 H I L BNN "MF"
+F5 "32.768kHz ±20ppm Crystal 12.5pF 50 kOhms 2-SMD, No Lead" 0 0 50 H I L BNN "DESCRIPTION"
+F6 "https://www.digikey.com/product-detail/en/ecs-inc/ECS-.327-12.5-34R-TR/XC2124CT-ND/5875607?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" 0 0 50 H I L BNN "DIGI-KEY_PURCHASE_URL"
+F7 "SMD-2 ECS International" 0 0 50 H I L BNN "PACKAGE"
+F8 "ECS-.327-12.5-34R-TR" 0 0 50 H I L BNN "MP"
+F9 "XC2124CT-ND" 0 0 50 H I L BNN "DIGI-KEY_PART_NUMBER"
+DRAW
+P 2 0 0 6 40 0 100 0 N
+P 2 0 0 6 -100 0 -40 0 N
+P 2 0 0 10 -15 60 -15 -60 N
+P 2 0 0 10 -15 -60 15 -60 N
+P 2 0 0 10 15 -60 15 60 N
+P 2 0 0 10 15 60 -15 60 N
+P 2 0 0 10 40 70 40 -70 N
+P 2 0 0 10 -40 70 -40 -70 N
+X ~ 2 200 0 100 L 40 40 0 0 P 
+X ~ 1 -200 0 100 R 40 40 0 0 P 
+ENDDRAW
+ENDDEF
+#
+# End Library

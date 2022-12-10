@@ -1,29 +1,6 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# Connector_Conn_01x03_Male
-#
-DEF Connector_Conn_01x03_Male J 0 40 Y N 1 F N
-F0 "J" 0 200 50 H V C CNN
-F1 "Connector_Conn_01x03_Male" 0 -200 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_1x??_*
-$ENDFPLIST
-DRAW
-S 34 -95 0 -105 1 1 6 F
-S 34 5 0 -5 1 1 6 F
-S 34 105 0 95 1 1 6 F
-P 2 1 1 6 50 -100 34 -100 N
-P 2 1 1 6 50 0 34 0 N
-P 2 1 1 6 50 100 34 100 N
-X Pin_1 1 200 100 150 L 50 50 1 1 P
-X Pin_2 2 200 0 150 L 50 50 1 1 P
-X Pin_3 3 200 -100 150 L 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
 # Connector_Conn_01x04_Male
 #
 DEF Connector_Conn_01x04_Male J 0 40 Y N 1 F N
@@ -423,6 +400,24 @@ X ~ 1 -300 100 100 R 50 50 1 1 P
 X ~ 3 -300 -100 100 R 50 50 1 1 P
 X ~ 4 300 -100 100 L 50 50 1 1 P
 X ~ 6 300 100 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# can2usb_helper_DT13-4P
+#
+DEF can2usb_helper_DT13-4P J 0 40 Y Y 1 L N
+F0 "J" -200 501 50 H V L BNN
+F1 "can2usb_helper_DT13-4P" -200 -600 50 H V L BNN
+F2 "TE_DT13-4P" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "Compliant" 0 0 50 H I L BNN "EU_RoHS_Compliance"
+F5 "DT13-4P" 0 0 50 H I L BNN "Comment"
+DRAW
+S -200 -400 200 400 0 0 10 f
+X 1 1 -400 300 200 R 40 40 0 0 P
+X 2 2 -400 100 200 R 40 40 0 0 P
+X 3 3 -400 -100 200 R 40 40 0 0 P
+X 4 4 -400 -300 200 R 40 40 0 0 P
 ENDDRAW
 ENDDEF
 #

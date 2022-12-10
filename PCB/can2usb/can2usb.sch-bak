@@ -922,28 +922,17 @@ NoConn ~ 1550 1675
 $Comp
 L power:GND #PWR0115
 U 1 1 63365CEC
-P 2875 6550
-F 0 "#PWR0115" H 2875 6300 50  0001 C CNN
-F 1 "GND" V 2880 6422 50  0000 R CNN
-F 2 "" H 2875 6550 50  0001 C CNN
-F 3 "" H 2875 6550 50  0001 C CNN
-	1    2875 6550
-	0    1    1    0   
+P 3375 6700
+F 0 "#PWR0115" H 3375 6450 50  0001 C CNN
+F 1 "GND" V 3380 6572 50  0000 R CNN
+F 2 "" H 3375 6700 50  0001 C CNN
+F 3 "" H 3375 6700 50  0001 C CNN
+	1    3375 6700
+	0    -1   -1   0   
 $EndComp
-$Comp
-L Connector:Conn_01x03_Male J2
-U 1 1 63366EE1
-P 3075 6650
-F 0 "J2" H 3047 6582 50  0000 R CNN
-F 1 "Conn_01x03_Male" H 3047 6673 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 3075 6650 50  0001 C CNN
-F 3 "~" H 3075 6650 50  0001 C CNN
-	1    3075 6650
-	-1   0    0    1   
-$EndComp
-Text GLabel 2875 6650 0    50   Input ~ 0
+Text GLabel 3075 7075 2    50   Input ~ 0
 CAN_H
-Text GLabel 2875 6750 0    50   Input ~ 0
+Text GLabel 3075 7275 2    50   Input ~ 0
 CAN_L
 $Comp
 L Power_Protection:USBLC6-2SC6 U5
@@ -1175,4 +1164,29 @@ F 44 "" H 5350 4225 50  0001 L BNN "PACKAGE_TYPE"
 	1    5350 4225
 	1    0    0    -1  
 $EndComp
+$Comp
+L Mechanical:MountingHole H4
+U 1 1 63501990
+P 7525 6250
+F 0 "H4" H 7625 6296 50  0000 L CNN
+F 1 "MountingHole" H 7625 6205 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.2mm_M2" H 7525 6250 50  0001 C CNN
+F 3 "~" H 7525 6250 50  0001 C CNN
+	1    7525 6250
+	1    0    0    -1  
+$EndComp
+$Comp
+L can2usb_helper:DT13-4P J2
+U 1 1 6369984B
+P 2675 6975
+F 0 "J2" H 2568 6408 50  0000 C CNN
+F 1 "DT13-4P" H 2568 6499 50  0000 C CNN
+F 2 "TE_DT13-4P" H 2675 6975 50  0001 L BNN
+F 3 "" H 2675 6975 50  0001 L BNN
+F 4 "Compliant" H 2675 6975 50  0001 L BNN "EU_RoHS_Compliance"
+F 5 "DT13-4P" H 2675 6975 50  0001 L BNN "Comment"
+	1    2675 6975
+	-1   0    0    1   
+$EndComp
+NoConn ~ 3075 6675
 $EndSCHEMATC
