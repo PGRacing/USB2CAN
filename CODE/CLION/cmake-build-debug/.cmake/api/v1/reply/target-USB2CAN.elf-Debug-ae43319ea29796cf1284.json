@@ -200,15 +200,13 @@
 			},
 			"sourceIndexes" : 
 			[
-				3,
 				4,
 				5,
 				6,
 				7,
 				8,
-				63,
-				64,
-				65,
+				9,
+				10,
 				66,
 				67,
 				68,
@@ -220,14 +218,18 @@
 				74,
 				75,
 				76,
+				77,
 				78,
-				83,
-				84,
-				85,
-				86,
+				79,
+				80,
+				82,
+				87,
 				88,
+				89,
 				90,
-				92
+				92,
+				94,
+				96
 			]
 		},
 		{
@@ -338,7 +340,7 @@
 			"language" : "ASM",
 			"sourceIndexes" : 
 			[
-				9
+				11
 			]
 		}
 	],
@@ -404,11 +406,10 @@
 				0,
 				1,
 				2,
-				10,
-				11,
+				3,
 				12,
+				13,
 				14,
-				15,
 				16,
 				17,
 				18,
@@ -428,8 +429,8 @@
 				32,
 				33,
 				34,
+				35,
 				36,
-				37,
 				38,
 				39,
 				40,
@@ -454,30 +455,31 @@
 				59,
 				60,
 				61,
-				77,
-				79,
-				80,
+				62,
+				63,
+				64,
 				81,
-				82,
-				87,
-				89,
+				83,
+				84,
+				85,
+				86,
 				91,
-				93
+				93,
+				95,
+				97
 			]
 		},
 		{
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				3,
 				4,
 				5,
 				6,
 				7,
 				8,
-				63,
-				64,
-				65,
+				9,
+				10,
 				66,
 				67,
 				68,
@@ -489,25 +491,29 @@
 				74,
 				75,
 				76,
+				77,
 				78,
-				83,
-				84,
-				85,
-				86,
+				79,
+				80,
+				82,
+				87,
 				88,
+				89,
 				90,
-				92
+				92,
+				94,
+				96
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				9,
-				13,
-				35,
-				62,
-				94
+				11,
+				15,
+				37,
+				65,
+				98
 			]
 		}
 	],
@@ -526,6 +532,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "Core/Inc/stm32f1xx_it.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Core/Inc/usb_transfer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -562,6 +573,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/system_stm32f1xx.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/usb_transfer.c",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -712,6 +729,11 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_can.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h",
 			"sourceGroupIndex" : 0
 		},
@@ -839,6 +861,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.c",
 			"sourceGroupIndex" : 1
 		},
 		{

@@ -19,11 +19,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
-#include "usbd_cdc_if.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
+#include "usbd_cdc.c"
+#include "usb_transfer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,6 +42,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CAN_HandleTypeDef hcan;
 
 /* USER CODE BEGIN PV */
 uint8_t USB_ReceiveData[40];
@@ -50,14 +52,20 @@ uint8_t USB_ReceiveDataFlag;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_CAN_Init(void);
 /* USER CODE BEGIN PFP */
-
+void InfoLedBlink(uint8_t times, int delay)
+{
+    for(int i = 0; i < times; i++)
+    {
+        HAL_GPIO_TogglePin(B_LED_GPIO_Port, B_LED_Pin);
+        HAL_Delay(delay);
+    }
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t *data = "Hello World from USB CDC\n\r";
-uint8_t buffer[64];
 /* USER CODE END 0 */
 
 /**
@@ -89,7 +97,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
+  MX_CAN_Init();
   /* USER CODE BEGIN 2 */
+  HAL_CAN_Start(&hcan);
 
   /* USER CODE END 2 */
 
@@ -105,8 +115,37 @@ int main(void)
     if(USB_ReceiveDataFlag == 1)
     {
         USB_ReceiveDataFlag = 0;
-        CDC_Transmit_FS(USB_ReceiveData, strlen(USB_ReceiveData));
-        HAL_GPIO_TogglePin(B_LED_GPIO_Port, B_LED_Pin);
+        USB_Data dataFrame;
+        memcpy(&dataFrame, USB_ReceiveData, sizeof(dataFrame));
+
+        switch(dataFrame.cmd)
+        {
+            case USB_CMD_START_MON:
+                InfoLedBlink(3, 100);
+                break;
+
+            case USB_CMD_STOP_MON:
+                InfoLedBlink(3, 500);
+                break;
+
+            case USB_CMD_CAN_FRAME:
+                InfoLedBlink(5, 100);
+                break;
+
+            case USB_CMD_HANDSHAKE:
+                InfoLedBlink(10, 100);
+                break;
+
+        }
+
+        uint8_t usb_data[32];
+        for(int i=0; i < 32; i++)
+        {
+            usb_data[i] = (i % 2) ? 0x66 : 0x69;
+        }
+
+        USB_FuncTransfer(USB_CMD_HELLO, usb_data, 16);
+
     }
 
   }
@@ -157,6 +196,43 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CAN Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CAN_Init(void)
+{
+
+  /* USER CODE BEGIN CAN_Init 0 */
+
+  /* USER CODE END CAN_Init 0 */
+
+  /* USER CODE BEGIN CAN_Init 1 */
+
+  /* USER CODE END CAN_Init 1 */
+  hcan.Instance = CAN1;
+  hcan.Init.Prescaler = 12;
+  hcan.Init.Mode = CAN_MODE_LOOPBACK;
+  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
+  hcan.Init.TimeSeg1 = CAN_BS1_2TQ;
+  hcan.Init.TimeSeg2 = CAN_BS2_3TQ;
+  hcan.Init.TimeTriggeredMode = DISABLE;
+  hcan.Init.AutoBusOff = DISABLE;
+  hcan.Init.AutoWakeUp = DISABLE;
+  hcan.Init.AutoRetransmission = DISABLE;
+  hcan.Init.ReceiveFifoLocked = DISABLE;
+  hcan.Init.TransmitFifoPriority = DISABLE;
+  if (HAL_CAN_Init(&hcan) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CAN_Init 2 */
+
+  /* USER CODE END CAN_Init 2 */
+
 }
 
 /**
