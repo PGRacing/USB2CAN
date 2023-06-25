@@ -64,8 +64,8 @@ all: main-build
 main-build: USB2CAN.elf secondary-outputs
 
 # Tool invocations
-USB2CAN.elf USB2CAN.map: $(OBJS) $(USER_OBJS) C:\Users\Karol\STM32CubeIDE\FromJ\USB2CAN\STM32F103CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Karol\STM32CubeIDE\FromJ\USB2CAN\STM32F103CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+USB2CAN.elf USB2CAN.map: $(OBJS) $(USER_OBJS) C:\Users\Karol\Documents\GitHub\USB2CAN\CODE\USB2CAN\STM32F103CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Karol\Documents\GitHub\USB2CAN\CODE\USB2CAN\STM32F103CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
