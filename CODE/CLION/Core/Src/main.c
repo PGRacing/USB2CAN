@@ -23,7 +23,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
-#include "usbd_cdc.c"
 #include "usb_transfer.h"
 /* USER CODE END Includes */
 

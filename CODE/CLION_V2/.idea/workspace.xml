@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="CLION_V2" targetName="CLION_V2.elf" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ddf201f8-2f2d-4e24-8802-f7758da5c609" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMakeLists_template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/Core/Src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/.cmake/api/v1/reply/index-2023-02-08T16-03-26-0520.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/3.24.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/3.24.2/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/3.24.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/3.24.2/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/USB2CAN.elf.dir/Core/Src/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/CMakeFiles/USB2CAN.elf.dir/Core/Src/main.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CLION/cmake-build-debug/USB2CAN.elf" beforeDir="false" afterPath="$PROJECT_DIR$/../CLION/cmake-build-debug/USB2CAN.elf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../USB2CAN/.settings/language.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../USB2CAN/.settings/language.settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-23_030627.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-23_040458.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-23_234740.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-23_235849.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-24_004013.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-24_004522.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-24_005745.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-24_162228.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-11-30_195051.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb-backups/can2usb-2022-12-09_035032.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb.kicad_prl" beforeDir="false" afterPath="$PROJECT_DIR$/../../PCB/can2usb/can2usb.kicad_prl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PCB/can2usb/can2usb.kicad_sch" beforeDir="false" afterPath="$PROJECT_DIR$/../../PCB/can2usb/can2usb.kicad_sch" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="3.1" />
+  </component>
+  <component name="ProjectId" id="2MVyu1w0jqiD57TteOxMPygfnBR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Embedded GDB Server.STLINK_V2">
+    <configuration name="CLION_V2.elf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CLION_V2" TARGET_NAME="CLION_V2.elf" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="CLION_V2" RUN_TARGET_NAME="CLION_V2.elf">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="STLINK_V2" type="com.jetbrains.cidr.embedded.customgdbserver.type" factoryName="com.jetbrains.cidr.embedded.customgdbserver.factory" PROGRAM_PARAMS="-p 53669 -cp &quot;C:\ST\STM32CubeIDE_1.8.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.win32_2.0.301.202207041506\tools\bin&quot; --frequency 4000 --swd" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CLION_V2" TARGET_NAME="CLION_V2.elf" version="1" RUN_TARGET_PROJECT_NAME="CLION_V2" RUN_TARGET_NAME="CLION_V2.elf">
+      <custom-gdb-server version="1" gdb-connect="tcp::53669" executable="C:\ST\STM32CubeIDE_1.8.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.stlink-gdb-server.win32_2.0.300.202203231527\tools\bin\ST-LINK_gdbserver.exe" warmup-ms="0" download-type="UPDATED_ONLY" reset-cmd="monitor reset" reset-type="AFTER_DOWNLOAD">
+        <debugger kind="GDB" isBundled="true" />
+      </custom-gdb-server>
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.CLION_V2.elf" />
+      <item itemvalue="Embedded GDB Server.STLINK_V2" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ddf201f8-2f2d-4e24-8802-f7758da5c609" name="Changes" comment="" />
+      <created>1677867262885</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677867262885</updated>
+      <workItem from="1677867288962" duration="1309000" />
+      <workItem from="1677869348993" duration="747000" />
+      <workItem from="1678649412520" duration="136000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
