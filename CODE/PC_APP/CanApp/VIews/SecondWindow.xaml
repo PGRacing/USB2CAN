@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfApp1.VIews.SecondWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.VIews"
+        mc:Ignorable="d"
+        Title="Nowe Okno" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="IdsListBox" Grid.Column="0"
+         ItemsSource="{Binding MainViewModel.AvailableFrameIds}"
+         SelectedItem="{Binding SelectedId}" />
+
+
+        <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding FilteredDataGridCollection}" Grid.Column="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
+                <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
+                <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="3*"/>
+                <DataGridTextColumn Header="Freq" Binding="{Binding Frequency}" Width="2*"/>
+                <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="2*"/>
+                <DataGridTextColumn Header="Tx" Binding="{Binding Tx}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
