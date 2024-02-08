@@ -1,31 +1,51 @@
-﻿<Window x:Class="WpfApp1.VIews.SecondWindow"
+﻿<Window x:Class="CanApp.VIews.SecondWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.VIews"
+        xmlns:local="clr-namespace:CanApp.VIews"
         mc:Ignorable="d"
-        Title="Nowe Okno" Height="300" Width="300">
+        Title="Nowe Okno" Height="300" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <ListBox x:Name="IdsListBox" Grid.Column="0"
+
+        <ListBox x:Name="IdsListBox" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"  Grid.RowSpan ="2"
          ItemsSource="{Binding MainViewModel.AvailableFrameIds}"
          SelectedItem="{Binding SelectedId}" />
 
 
-        <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding FilteredDataGridCollection}" Grid.Column="1">
+        <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding FilteredDataGridCollection}" Grid.Column="2" Grid.ColumnSpan="8" Grid.Row="0"  Grid.RowSpan ="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
                 <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
-                <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="3*"/>
+                <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="4*"/>
                 <DataGridTextColumn Header="Freq" Binding="{Binding Frequency}" Width="2*"/>
-                <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="2*"/>
-                <DataGridTextColumn Header="Tx" Binding="{Binding Tx}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button Content="Bajt 1" Grid.Column="2" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="0" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=0}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 2" Grid.Column="3" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="1" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=1}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 3" Grid.Column="4" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="2" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=2}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 4" Grid.Column="5" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="3" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=3}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 5" Grid.Column="6" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="4" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=4}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 6" Grid.Column="7" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="5" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=5}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 7" Grid.Column="8" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="6" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=6}" Style="{DynamicResource SecondWindowButtonStyle}"/>
+        <Button Content="Bajt 8" Grid.Column="9" Grid.Row="1" Command="{Binding OpenBytesWindowCommand}" CommandParameter="7" IsEnabled="{Binding MaxBytes, Converter={StaticResource ByteIndexEnabledConverter}, ConverterParameter=7}" Style="{DynamicResource SecondWindowButtonStyle}"/>
     </Grid>
 </Window>

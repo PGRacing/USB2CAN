@@ -1,9 +1,9 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="CanApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:CanApp"
         mc:Ignorable="d"
         Title="Gui" Height="450" Width="800" Background="#F0F0F0" >
     <Border BorderBrush="#ADD8E6" BorderThickness="2">
@@ -43,48 +43,42 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <!-- Przyciski dla Transmit -->
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="0" Text="All frames" Style="{StaticResource MyTextBlockStyle}"/>
 
-            <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding DataGridCollection}"  Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="11">
+            <DataGrid x:Name="DataGrid1" ItemsSource="{Binding DataGridCollection1}" Style="{StaticResource MyDataGridStyle}" Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="11">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
                     <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
-                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="3*"/>
+                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="4*"/>
                     <DataGridTextColumn Header="Freq" Binding="{Binding Frequency}" Width="2*"/>
-                    <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="2*"/>
-                    <DataGridTextColumn Header="Tx" Binding="{Binding Tx}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
 
             <Button Grid.Column="7"  Grid.Row="12" Content="Open" Command="{Binding OpenPortCommand}" Style="{StaticResource MyButtonStyle}" />
             <Button Grid.Column="8"  Grid.Row="12" Content="Save" Command="{Binding ExportToCsvCommand}" Style="{StaticResource MyButtonStyle}"/>
-                <Button Grid.Column="9"  Grid.Row="12" Content="Clear" Command="{Binding ClearDataGridCommand}" Style="{StaticResource MyButtonStyle}" />
+            <Button Grid.Column="9"  Grid.Row="12" Content="Clear" Command="{Binding ClearDataGridCommand}" CommandParameter="DataGrid1" Style="{StaticResource MyButtonStyle}" />
             <Button Grid.Column="10"  Grid.Row="12" Content="Close" Command="{Binding ClosePortCommand}" Style="{DynamicResource MyButtonStyle}" />
 
 
             <TextBlock Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="13" Text="Transmit" Style="{StaticResource MyTextBlockStyle}" />
 
-            <DataGrid Style="{StaticResource MyDataGridStyle}" Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="14"  Grid.RowSpan ="5">
+            <DataGrid x:Name="DataGrid2" ItemsSource="{Binding DataGridCollection2}" CellEditEnding="DataGrid_CellEditEnding" Style="{StaticResource MyDataGridStyle}" Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="14"  Grid.RowSpan ="5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*"/>
                     <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
-                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="3*"/>
-                    <DataGridTextColumn Header="Freq" Binding="{Binding Freq}" Width="2*"/>
-                    <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="2*"/>
-                    <DataGridTextColumn Header="Tx" Binding="{Binding Tx}" Width="*"/>
+                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="4*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Grid.Column="8"  Grid.Row="19" Content="Clear" Style="{StaticResource MyButtonStyle}"/>
-            <Button Grid.Column="9"  Grid.Row="19" Content="Save" Style="{StaticResource MyButtonStyle}"/>
+            <Button Grid.Column="8"  Grid.Row="19" Content="Clear" Command="{Binding ClearDataGridCommand}" CommandParameter="DataGrid2" Style="{StaticResource MyButtonStyle}"/>
+            <Button Grid.Column="9"  Grid.Row="19" Content="Send" Command="{Binding SendFrameCommand}" Style="{StaticResource MyButtonStyle}"/>
 
             <TextBlock Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Text="Devices" Style="{StaticResource MyTextBlockStyle}"/>
 
-            <DataGrid Style="{StaticResource MyDataGridStyle}"  Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="5">
+            <DataGrid x:Name="DataGrid3" ItemsSource="{Binding DataGridCollection3}" Style="{StaticResource MyDataGridStyle}"  Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Type" Binding="{Binding ID}" Width="4*" SortMemberPath="ID" CanUserSort="True"/>
                     <DataGridTextColumn Header="Rev" Binding="{Binding DLC}" Width="*"/>

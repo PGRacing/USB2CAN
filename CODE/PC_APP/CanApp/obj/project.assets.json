@@ -238,11 +238,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\oliwer_cycek\\source\\repos\\CanApp\\CanApp\\CanApp.csproj",
+      "projectUniqueName": "C:\\Users\\oliwer_cycek\\source\\repos\\USB2CAN\\USB2CAN\\CODE\\PC_APP\\CanApp\\CanApp.csproj",
       "projectName": "CanApp",
-      "projectPath": "C:\\Users\\oliwer_cycek\\source\\repos\\CanApp\\CanApp\\CanApp.csproj",
+      "projectPath": "C:\\Users\\oliwer_cycek\\source\\repos\\USB2CAN\\USB2CAN\\CODE\\PC_APP\\CanApp\\CanApp.csproj",
       "packagesPath": "C:\\Users\\oliwer_cycek\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\oliwer_cycek\\source\\repos\\CanApp\\CanApp\\obj\\",
+      "outputPath": "C:\\Users\\oliwer_cycek\\source\\repos\\USB2CAN\\USB2CAN\\CODE\\PC_APP\\CanApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\oliwer_cycek\\AppData\\Roaming\\NuGet\\NuGet.Config",

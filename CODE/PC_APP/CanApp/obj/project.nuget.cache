@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mmz+Qdl4WJtvFzAMB2PVfRyJ8pEyI/D6mGsz/7hJmXR5GoyHUSSQZ9hVFEStoh3wYPgTllILIWdDBAgxfVmEGQ==",
+  "dgSpecHash": "AvuN/6JDaq0ugTiLK4JRLFpWTEBruiXzCsV24UIwbFmwmfoJyRgdTAokZCU/20On7Im5XgLdgFY7mtU8jljYBQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\oliwer_cycek\\source\\repos\\CanApp\\CanApp\\CanApp.csproj",
+  "projectFilePath": "C:\\Users\\oliwer_cycek\\source\\repos\\USB2CAN\\USB2CAN\\CODE\\PC_APP\\CanApp\\CanApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\oliwer_cycek\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
     "C:\\Users\\oliwer_cycek\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",

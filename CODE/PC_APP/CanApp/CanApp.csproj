@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Nowy folder\**" />
+    <EmbeddedResource Remove="Nowy folder\**" />
+    <None Remove="Nowy folder\**" />
+    <Page Remove="Nowy folder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
   </ItemGroup>
 

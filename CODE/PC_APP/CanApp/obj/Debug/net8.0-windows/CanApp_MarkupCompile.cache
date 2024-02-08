@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\oliwer_cycek\source\repos\CanApp\CanApp\obj\Debug\net8.0-windows\
+C:\Users\oliwer_cycek\source\repos\USB2CAN\USB2CAN\CODE\PC_APP\CanApp\obj\Debug\net8.0-windows\
 CanApp
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\oliwer_cycek\source\repos\CanApp\CanApp\App.xaml
-3649561169
+C:\Users\oliwer_cycek\source\repos\USB2CAN\USB2CAN\CODE\PC_APP\CanApp\App.xaml
+4-335948758
 
-91576947976
+131801626768
 19931462884
-Resources\Styles.xaml;VIews\MainWindow.xaml;VIews\SecondWindow.xaml;
+Resources\Styles.xaml;VIews\BytesWindow.xaml;VIews\MainWindow.xaml;VIews\SecondWindow.xaml;
 
 False
 

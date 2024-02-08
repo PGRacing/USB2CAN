@@ -11,10 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1;
-using WpfApp1.ViewModels;
+using CanApp;
+using CanApp.ViewModels;
 
-namespace WpfApp1.VIews
+namespace CanApp.VIews
 {
 
     public partial class SecondWindow : Window
