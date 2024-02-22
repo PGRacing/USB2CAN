@@ -47,12 +47,14 @@
 
             <TextBlock Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="0" Text="All frames" Style="{StaticResource MyTextBlockStyle}"/>
 
-            <DataGrid x:Name="DataGrid1" ItemsSource="{Binding DataGridCollection1}" Style="{StaticResource MyDataGridStyle}" Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="11">
+            <DataGrid x:Name="DataGrid1" AutoGenerateColumns="False" EnableRowVirtualization="True" EnableColumnVirtualization="True"
+          ItemsSource="{Binding DataGridCollection1}" Style="{StaticResource MyDataGridStyle}"
+          Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="11"
+          CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
-                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
-                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="4*"/>
-                    <DataGridTextColumn Header="Freq" Binding="{Binding Frequency}" Width="2*"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding HexID}" Width="Auto" SortMemberPath="ID"/>
+                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="Auto"/>
+                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Win32;
 using CanApp.VIews;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 
 namespace CanApp.ViewModels
@@ -27,8 +28,14 @@ namespace CanApp.ViewModels
         public ICommand OpenNewWindowCommand { get; private set; }
         public ObservableCollection<int> AvailableFrameIds { get; private set; }
 
-        private Dictionary<int, DateTime> lastReceivedTimestamps = new Dictionary<int, DateTime>();
         public ICommand SendFrameCommand { get; private set; }
+        private readonly object bufferLock = new object();
+        private DispatcherTimer uiUpdateTimer;
+        private const int MaxProcessedFrames = 100;
+        private List<byte[]> framesBuffer = new List<byte[]>();
+        private CircularBuffer circularBuffer = new CircularBuffer(1024 * 10);
+        private List<MyDataModel> processedFrames = new List<MyDataModel>();
+
 
         public MyViewModel()
         {
@@ -46,99 +53,123 @@ namespace CanApp.ViewModels
             OpenNewWindowCommand = new RelayCommand(OpenNewWindow);
             AvailableFrameIds = new ObservableCollection<int>();
             SendFrameCommand = new RelayCommand(obj => SendFrame());
+            uiUpdateTimer = new DispatcherTimer();
+            uiUpdateTimer.Interval = TimeSpan.FromMilliseconds(10);
+            uiUpdateTimer.Tick += UiUpdateTimer_Tick;
+            uiUpdateTimer.Start();
         }
-
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            List<byte> buffer = new List<byte>();
-            bool packetStartDetected = false;
-            int expectedLength = 0;
-            int bytesRead = 0;
-
+           
             while (_serialPort.BytesToRead > 0)
             {
                 var readByte = (byte)_serialPort.ReadByte();
+                circularBuffer.Add(readByte);
+                Debug.WriteLine($"Dodano {readByte} do CircularBuffer. Rozmiar bufora: {circularBuffer.Count}");
+            }
+        }
+        private void ProcessBufferData()
+        {
+            bool packetStartDetected = false;
+            int expectedLength = 0;
+            List<byte> currentFrameBuffer = new List<byte>();
+            int processLimit = 1000; // Ilość bajtów do przetworzenia w jednym cyklu
+
+            while (circularBuffer.Count > 0 && processLimit > 0)
+            {
+                byte readByte = circularBuffer.Remove(); // Pobierz bajt z bufora cyklicznego
+                processLimit--;
 
                 if (!packetStartDetected)
                 {
-                    if (readByte == 0xAA)
+                    if (readByte == 0xAA) // Początek ramki
                     {
                         packetStartDetected = true;
-                        buffer.Clear(); // Wyczyść bufor, aby rozpocząć nową ramkę
-                        bytesRead = 1;
-                        buffer.Add(readByte);
+                        currentFrameBuffer.Add(readByte); // Dodaj początek ramki do bufora ramki
                     }
                 }
-                else
+                else // Jeśli początek ramki został wykryty
                 {
-                    buffer.Add(readByte);
-                    bytesRead++;
+                    currentFrameBuffer.Add(readByte); // Kontynuuj dodawanie bajtów do ramki
 
-                    if (bytesRead == 2)
+                    if (currentFrameBuffer.Count == 2) // Długość ramki jest określona w drugim bajcie
                     {
-                        expectedLength = readByte & 0x0F;
-                        expectedLength += 5;
+                        expectedLength = readByte & 0x0F; // Uzyskaj długość ramki z drugiego bajtu
+                        expectedLength += 5; // Dostosuj do własnego formatu (nagłówek + ID + dane + CRC)
                     }
 
-                    if (bytesRead == expectedLength)
+                    // Sprawdź, czy otrzymaliśmy pełną ramkę lub jeśli ramka jest błędna (brak 0x55 na końcu)
+                    if ((currentFrameBuffer.Count >= expectedLength && readByte == 0x55) ||
+                        (readByte != 0x55 && currentFrameBuffer.Count > expectedLength))
                     {
-                        var canData = ConvertBytesToCanFrame(buffer.ToArray());
-                        if (canData != null)
+                        if (currentFrameBuffer.Count >= expectedLength && readByte == 0x55)
                         {
-                            double frequency = UpdateFrameFrequency(canData.ID);
-                            canData.Frequency = frequency;
-
-                            Application.Current.Dispatcher.Invoke(() =>
+                            lock (bufferLock)
                             {
-                                DataGridCollection1.Add(canData);
-                                if (!AvailableFrameIds.Contains(canData.ID))
-                                {
-                                    AvailableFrameIds.Add(canData.ID);
-                                }
-                            });
+                                framesBuffer.Add(currentFrameBuffer.ToArray()); // Dodaj kompletną ramkę do bufora
+                            }
+                            currentFrameBuffer.Clear(); // Wyczyść bufor bieżącej ramki
+                            packetStartDetected = false; // Resetuj detekcję początku ramki
+                            expectedLength = 0; // Resetuj oczekiwaną długość
                         }
-                        else
-                        {
-                            Debug.WriteLine("Odebrana ramka jest nieprawidłowa lub ma niewłaściwy format.");
-                        }
-
-                        buffer.Clear();
-                        packetStartDetected = false;
-                        bytesRead = 0;
-                        expectedLength = 0;
+                        // Wyczyść bufor bieżącej ramki na potrzeby następnej ramki, niezależnie czy była błędna, czy nie
+                        currentFrameBuffer.Clear();
+                        packetStartDetected = false; // Resetuj detekcję początku ramki
+                        expectedLength = 0; // Resetuj oczekiwaną długość ramki
                     }
                 }
             }
         }
 
-        private MyDataModel ConvertBytesToCanFrame(byte[] bytes)
-        {
-            if (bytes.Length < 5 || bytes[0] != 0xAA || bytes[bytes.Length - 1] != 0x55)
+       private void UiUpdateTimer_Tick(object sender, EventArgs e)
+{
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                return null;
-            }
-
-            // Usuń nagłówek i kod zakończenia
-            byte[] frameBytes = bytes.Skip(1).Take(bytes.Length - 2).ToArray();
-
-            int typeByte = frameBytes[0];
-            int dlc = typeByte & 0x0F; // Długość danych zapisana w bitach 0-3
-
-            if (frameBytes.Length != 3 + dlc) // 1 bajt typu, 2 bajty ID, dlc bajtów danych
-            {
-                Debug.WriteLine("Bytes  2:");
-                foreach (byte b in bytes)
+                lock (bufferLock)
                 {
-                    Debug.Write(b.ToString("X2") + " ");
+                    ProcessBufferData();
+                    while (framesBuffer.Count > 0)
+                    {
+                        var frameData = framesBuffer[0];
+                        framesBuffer.RemoveAt(0); // Usuń przetworzoną ramkę z bufora
+                
+                        var canData = ConvertBytesToCanFrame(frameData, frameData.Length);
+                        if (canData != null)
+                        {
+                            if (DataGridCollection1.Count >= 1000)
+                            {
+                                DataGridCollection1.RemoveAt(0); // Usuń najstarszą ramkę, jeśli przekroczono limit
+                            }
+                            DataGridCollection1.Add(canData); // Dodaj nową ramkę do UI
+                        }
+                    }
                 }
-                Debug.WriteLine("\n");
-                return null;
+            });
+       }
+
+        private MyDataModel ConvertBytesToCanFrame(byte[] buffer, int length)
+        {
+            // Sprawdź minimalną długość ramki
+            if (length < 5 || buffer[0] != 0xAA || buffer[length - 1] != 0x55)
+            {
+                return null; // Nieprawidłowa ramka
             }
 
-            // Wyodrębnij ID ramki (2 bajty)
-            //int id = (frameBytes[1] << 8) + frameBytes[2];
-            int id = ((frameBytes[2] & 0x07) << 8) | frameBytes[1];
-            byte[] dataBytes = frameBytes.Skip(3).Take(dlc).ToArray();
+            // Zakładając, że format ramki to: 0xAA | DLC | ID (2 bajty) | dane | 0x55
+            int dlc = buffer[1] & 0x0F; // Długość danych
+
+            // Sprawdzenie, czy długość ramki jest prawidłowa
+            if (length != 5 + dlc) // 1 bajt na nagłówek, 1 na DLC, 2 na ID, X na dane, 1 na kod zakończenia
+            {
+                return null; // Nieprawidłowa długość ramki
+            }
+
+            // Wyodrębnij ID ramki
+            int id = (buffer[2] << 8) + buffer[3];
+
+            // Kopiuj dane do nowej tablicy
+            byte[] dataBytes = new byte[dlc];
+            Array.Copy(buffer, 4, dataBytes, 0, dlc);
 
             // Utwórz i zwróć instancję MyDataModel
             return new MyDataModel
@@ -149,25 +180,7 @@ namespace CanApp.ViewModels
             };
         }
 
-        private double UpdateFrameFrequency(int frameId)
-        {
-            DateTime now = DateTime.Now;
-            double frequency = 0;
 
-            if (lastReceivedTimestamps.TryGetValue(frameId, out DateTime lastReceivedTime))
-            {
-                TimeSpan timeDifference = now - lastReceivedTime;
-                frequency = 1 / timeDifference.TotalSeconds; // Oblicz częstotliwość
-                frequency = Math.Round(frequency, 0);
-                lastReceivedTimestamps[frameId] = now; // Aktualizuj czas ostatniego odbioru
-            }
-            else
-            {
-                lastReceivedTimestamps.Add(frameId, now); // Pierwszy odbiór ramki z tym ID
-            }
-
-            return frequency;
-        }
 
         private void OpenPort(object param)
         {
@@ -306,5 +319,57 @@ namespace CanApp.ViewModels
 
 
 
+    }
+
+    class CircularBuffer
+    {
+        private byte[] buffer;
+        private int head;
+        private int tail;
+        private int capacity;
+        private bool isFull;
+
+        public CircularBuffer(int capacity)
+        {
+            this.capacity = capacity;
+            buffer = new byte[capacity];
+            head = capacity - 1;
+        }
+
+        public void Add(byte data)
+        {
+            head = (head + 1) % capacity;
+            buffer[head] = data;
+
+            if (isFull)
+            {
+                tail = (tail + 1) % capacity;
+            }
+            else if (head == tail)
+            {
+                isFull = true;
+            }
+        }
+
+        public int Capacity => capacity;
+        public bool IsFull => isFull;
+        public byte Remove()
+        {
+            if (Count == 0) throw new InvalidOperationException("Buffer is empty");
+            byte data = buffer[tail];
+            tail = (tail + 1) % capacity;
+            isFull = false; // Po usunięciu elementu bufor nie może być pełny
+            return data;
+        }
+
+        public int Count
+        {
+            get
+            {
+                if (isFull) return capacity;
+                if (head >= tail) return head - tail + 1;
+                return capacity - tail + head + 1;
+            }
+        }
     }
 }

@@ -32,10 +32,9 @@
 
         <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding FilteredDataGridCollection}" Grid.Column="2" Grid.ColumnSpan="8" Grid.Row="0"  Grid.RowSpan ="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding HexID}" Width="*" SortMemberPath="ID" CanUserSort="True"/>
                 <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
                 <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="4*"/>
-                <DataGridTextColumn Header="Freq" Binding="{Binding Frequency}" Width="2*"/>
             </DataGrid.Columns>
         </DataGrid>
 
