@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CanApp.VIews"
         mc:Ignorable="d"
-        Title="BytesWindow" Height="80" Width="400">
+        Title="BytesWindow" Height="400" Width="200">
     <Grid>
         <ListBox x:Name="ListBoxByteValues"/>
     </Grid>

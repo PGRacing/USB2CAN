@@ -27,7 +27,7 @@
 
         <ListBox x:Name="IdsListBox" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"  Grid.RowSpan ="2"
          ItemsSource="{Binding MainViewModel.AvailableFrameIds}"
-         SelectedItem="{Binding SelectedId}" />
+         SelectedItem="{Binding SelectedHexId}" />
 
 
         <DataGrid Style="{StaticResource MyDataGridStyle}" ItemsSource="{Binding FilteredDataGridCollection}" Grid.Column="2" Grid.ColumnSpan="8" Grid.Row="0"  Grid.RowSpan ="1">

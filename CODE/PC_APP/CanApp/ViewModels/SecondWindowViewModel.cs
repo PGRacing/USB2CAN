@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using CanApp.VIews;
 
@@ -13,18 +12,19 @@ namespace CanApp.ViewModels
         public MyViewModel MainViewModel { get; private set; }
         public ICommand OpenBytesWindowCommand { get; private set; }
 
-        private int _selectedId;
+        private string _selectedHexId;
+
         private int _maxBytes;
         private ObservableCollection<MyDataModel> _filteredDataGridCollection;
-        public int SelectedId
+        public string SelectedHexId
         {
-            get { return _selectedId; }
+            get { return _selectedHexId; }
             set
             {
-                if (_selectedId != value)
+                if (_selectedHexId != value)
                 {
-                    _selectedId = value;
-                    OnPropertyChanged(nameof(SelectedId));
+                    _selectedHexId = value;
+                    OnPropertyChanged(nameof(SelectedHexId));
                     FilterDataGridCollection();
                 }
             }
@@ -43,6 +43,13 @@ namespace CanApp.ViewModels
             }
         }
 
+        public SecondWindowViewModel(MyViewModel mainViewModel)
+        {
+            MainViewModel = mainViewModel;
+            FilteredDataGridCollection = new ObservableCollection<MyDataModel>();
+            OpenBytesWindowCommand = new RelayCommand(OpenBytesWindow);
+        }
+
         public ObservableCollection<MyDataModel> FilteredDataGridCollection
         {
             get { return _filteredDataGridCollection; }
@@ -56,30 +63,33 @@ namespace CanApp.ViewModels
             }
         }
 
-        public SecondWindowViewModel(MyViewModel mainViewModel)
-        {
-            MainViewModel = mainViewModel;
-            FilteredDataGridCollection = new ObservableCollection<MyDataModel>();
-            OpenBytesWindowCommand = new RelayCommand(OpenBytesWindow);
-        }
+     
 
         private void FilterDataGridCollection()
         {
-            if (MainViewModel != null && MainViewModel.DataGridCollection1 != null)
+            if (!string.IsNullOrWhiteSpace(SelectedHexId) && MainViewModel.FramesById.ContainsKey(SelectedHexId))
             {
-                var filteredData = MainViewModel.DataGridCollection1.Where(item => item.ID == SelectedId).ToList();
+                var filteredData = MainViewModel.FramesById[SelectedHexId];
 
                 // Zaktualizuj przefiltrowaną kolekcję
                 FilteredDataGridCollection.Clear();
-                foreach (var item in filteredData)
+                if (filteredData != null)
                 {
-                    FilteredDataGridCollection.Add(item);
+                    foreach (var item in filteredData)
+                    {
+                        if (item != null)
+                        {
+                            FilteredDataGridCollection.Add(item);
+                        }
+                    }
                 }
 
-                // Aktualizuj MaxBytes na podstawie długości danych bajtowych pierwszego elementu z przefiltrowanych danych
-                MaxBytes = filteredData.FirstOrDefault()?.Bytes?.Length ?? 0;
+                // Ustaw MaxBytes na maksymalną długość bajtów wśród wszystkich ramek dla wybranego HexID
+                MaxBytes = filteredData.Max(frame => frame?.Bytes.Length ?? 0);
+
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -90,21 +100,37 @@ namespace CanApp.ViewModels
 
         private void OpenBytesWindow(object parameter)
         {
-            int byteIndex = Convert.ToInt32(parameter);
-            var selectedFrame = MainViewModel.DataGridCollection1.FirstOrDefault(x => x.ID == SelectedId);
-            if (selectedFrame == null || byteIndex >= selectedFrame.Bytes.Length)
+            if (parameter == null)
             {
-                // Bajt jest poza zakresem, więc nic nie rób.
+                // Logika obsługi błędów lub wczesny return, jeśli parametr jest null
                 return;
             }
 
-            var byteValues = MainViewModel.DataGridCollection1
-                .Where(x => x.ID == SelectedId)
-                .Select(frame => frame.Bytes.ElementAtOrDefault(byteIndex))
-                .ToList();
+            // Spróbuj przekonwertować parametr na int
+            if (int.TryParse(parameter.ToString(), out int byteIndex))
+            {
+                if (!string.IsNullOrWhiteSpace(SelectedHexId))
+                {
+                    // Sprawdź, czy słownik zawiera klucz SelectedHexId
+                    if (MainViewModel.FramesById.TryGetValue(SelectedHexId, out var framesWithSelectedId))
+                    {
+                        // Teraz masz listę ramek z danym HexID
+                        var byteValues = framesWithSelectedId
+                            .Select(frame => frame.Bytes.ElementAtOrDefault(byteIndex))
+                            .ToList();
 
-            BytesWindow bytesWindow = new BytesWindow(byteValues);
-            bytesWindow.Show();
+                        // Teraz możesz otworzyć okno z wartościami bajtów dla tego konkretnego indeksu bajtu
+                        BytesWindow bytesWindow = new BytesWindow(byteValues);
+                        bytesWindow.Show();
+                    }
+                }
+            }
+            else
+            {
+                // Logika obsługi błędów, jeśli parametr nie mógł być przekonwertowany na int
+            }
         }
+
+
     }
 }

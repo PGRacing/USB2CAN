@@ -15,6 +15,5 @@ namespace CanApp.ViewModels
         {
             get { return ID.ToString("X"); } // Konwertuje wartość ID na heksadecymalną
         }
-        public string ConvertedBytes { get; set; }
     }
 }

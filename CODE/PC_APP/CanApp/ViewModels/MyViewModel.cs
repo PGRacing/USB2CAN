@@ -3,19 +3,17 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Windows.Input;
-using System.Linq;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
 using CanApp.VIews;
-using System.Windows.Controls;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 
 namespace CanApp.ViewModels
 {
-    public class MyViewModel
+    public class MyViewModel : INotifyPropertyChanged
     {
         static SerialPort _serialPort;
         public ObservableCollection<MyDataModel> DataGridCollection1 { get; set; }
@@ -26,48 +24,76 @@ namespace CanApp.ViewModels
         public ICommand ExportToCsvCommand { get; private set; }
         public ICommand ClearDataGridCommand { get; private set; }
         public ICommand OpenNewWindowCommand { get; private set; }
-        public ObservableCollection<int> AvailableFrameIds { get; private set; }
+        public ObservableCollection<string> AvailableFrameIds { get; set; }
 
         public ICommand SendFrameCommand { get; private set; }
         private readonly object bufferLock = new object();
         private DispatcherTimer uiUpdateTimer;
-        private const int MaxProcessedFrames = 100;
         private List<byte[]> framesBuffer = new List<byte[]>();
         private CircularBuffer circularBuffer = new CircularBuffer(1024 * 10);
-        private List<MyDataModel> processedFrames = new List<MyDataModel>();
+        public ObservableCollection<string> AvailablePorts { get; private set; }
+        private string _selectedPort;
+        private volatile bool _continueReading = true;
+        private HashSet<string> allSeenHexIds = new HashSet<string>();
+
+        private Dictionary<string, ObservableCollection<MyDataModel>> framesById = new Dictionary<string, ObservableCollection<MyDataModel>>();
+
+        public Dictionary<string, ObservableCollection<MyDataModel>> FramesById
+        {
+             get { return framesById; }
+        }
+
+
 
 
         public MyViewModel()
         {
             DataGridCollection1 = new ObservableCollection<MyDataModel>();
+            DataGridCollection1.CollectionChanged += (s, e) => LoadUniqueHexIds();
             DataGridCollection2 = new ObservableCollection<MyDataModel>();
             DataGridCollection3 = new ObservableCollection<MyDataModel>();
+            AvailablePorts = new ObservableCollection<string>();
             // Konfiguracja portu szeregowego (przykład, dostosuj do swoich potrzeb)
 
             OpenPortCommand = new RelayCommand(OpenPort);
             ClosePortCommand = new RelayCommand(ClosePort, CanClosePort);
             ExportToCsvCommand = new RelayCommand(ExportToCsv);
             ClearDataGridCommand = new RelayCommand(ClearDataGrid);
-            _serialPort = new SerialPort("COM5", 115200);
+            _serialPort = new SerialPort(); // Początkowo bez przypisanego portu
             _serialPort.DataReceived += SerialPort_DataReceived;
             OpenNewWindowCommand = new RelayCommand(OpenNewWindow);
-            AvailableFrameIds = new ObservableCollection<int>();
+            AvailableFrameIds = new ObservableCollection<string>();
             SendFrameCommand = new RelayCommand(obj => SendFrame());
             uiUpdateTimer = new DispatcherTimer();
-            uiUpdateTimer.Interval = TimeSpan.FromMilliseconds(10);
+            uiUpdateTimer.Interval = TimeSpan.FromMilliseconds(2);
             uiUpdateTimer.Tick += UiUpdateTimer_Tick;
             uiUpdateTimer.Start();
+            LoadAvailablePorts();
         }
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-           
-            while (_serialPort.BytesToRead > 0)
+            while (_continueReading && _serialPort.IsOpen && _serialPort.BytesToRead > 0)
             {
-                var readByte = (byte)_serialPort.ReadByte();
-                circularBuffer.Add(readByte);
-                Debug.WriteLine($"Dodano {readByte} do CircularBuffer. Rozmiar bufora: {circularBuffer.Count}");
+                try
+                {
+                    var readByte = (byte)_serialPort.ReadByte();
+                    // Sprawdzenie, czy kontynuować odczyt i czy port jest otwarty przed dodaniem bajtu do bufora
+                    if (_continueReading && _serialPort.IsOpen)
+                    {
+                        circularBuffer.Add(readByte);
+                    }
+                    else
+                    {
+                        break; // Zakończ pętlę, jeśli port nie jest otwarty lub flaga _continueReading jest false
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                    break; // Zakończ pętlę, jeśli wystąpi wyjątek (np. port zamknięty)
+                }
             }
         }
+
         private void ProcessBufferData()
         {
             bool packetStartDetected = false;
@@ -121,8 +147,8 @@ namespace CanApp.ViewModels
             }
         }
 
-       private void UiUpdateTimer_Tick(object sender, EventArgs e)
-{
+        private void UiUpdateTimer_Tick(object sender, EventArgs e)
+        {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 lock (bufferLock)
@@ -132,10 +158,13 @@ namespace CanApp.ViewModels
                     {
                         var frameData = framesBuffer[0];
                         framesBuffer.RemoveAt(0); // Usuń przetworzoną ramkę z bufora
-                
+
                         var canData = ConvertBytesToCanFrame(frameData, frameData.Length);
                         if (canData != null)
                         {
+                            // Tutaj dodajemy ramkę do słownika
+                            AddFrameToDictionary(canData);
+
                             if (DataGridCollection1.Count >= 1000)
                             {
                                 DataGridCollection1.RemoveAt(0); // Usuń najstarszą ramkę, jeśli przekroczono limit
@@ -145,7 +174,35 @@ namespace CanApp.ViewModels
                     }
                 }
             });
-       }
+        }
+
+
+        public void LoadUniqueHexIds()
+        {
+            // Pobierz aktualne unikalne ID, konwertuj na HEX
+            var currentHexIds = DataGridCollection1.Select(frame => frame.ID.ToString("X")).Distinct();
+
+            // Dodaj nowe identyfikatory do zbioru śledzącego wszystkie identyfikatory
+            foreach (var hexId in currentHexIds)
+            {
+                allSeenHexIds.Add(hexId);
+            }
+
+            // Posortuj wszystkie kiedykolwiek widziane identyfikatory HEX
+            var sortedAllHexIds = allSeenHexIds.OrderBy(hex => int.Parse(hex, System.Globalization.NumberStyles.HexNumber)).ToList();
+
+            // Zaktualizuj AvailableFrameIds tylko jeśli jest to konieczne
+            if (!sortedAllHexIds.SequenceEqual(AvailableFrameIds))
+            {
+                AvailableFrameIds.Clear();
+                foreach (var hexId in sortedAllHexIds)
+                {
+                    AvailableFrameIds.Add(hexId);
+                }
+            }
+        }
+
+
 
         private MyDataModel ConvertBytesToCanFrame(byte[] buffer, int length)
         {
@@ -188,6 +245,7 @@ namespace CanApp.ViewModels
             {
                 try
                 {
+                    _continueReading = true; // Wznów odczytywanie danych
                     _serialPort.Open();
                 }
                 catch (Exception ex)
@@ -203,7 +261,11 @@ namespace CanApp.ViewModels
             {
                 try
                 {
+                    _continueReading = false; // Zatrzymaj odczytywanie danych
                     _serialPort.Close();
+
+                    // Czyszczenie circularBuffer po zamknięciu portu
+                    circularBuffer.Clear(); // Zakładam, że masz metodę Clear() w CircularBuffer
                 }
                 catch (Exception ex)
                 {
@@ -211,6 +273,8 @@ namespace CanApp.ViewModels
                 }
             }
         }
+
+
 
 
         private bool CanClosePort(object param)
@@ -252,6 +316,7 @@ namespace CanApp.ViewModels
             {
                 case "DataGrid1":
                     DataGridCollection1.Clear();
+                    circularBuffer.Clear(); // Zakładam, że masz metodę Clear() w CircularBuffer
                     break;
                 case "DataGrid2":
                     DataGridCollection2.Clear();
@@ -268,6 +333,24 @@ namespace CanApp.ViewModels
             window.Show();
         }
 
+        private void AddFrameToDictionary(MyDataModel frame)
+        {
+            string hexId = frame.HexID;
+
+            if (!framesById.ContainsKey(hexId))
+            {
+                framesById[hexId] = new ObservableCollection<MyDataModel>();
+            }
+
+            var framesList = framesById[hexId];
+            if (framesList.Count >= 100) // Ogranicz do 100 ramek
+            {
+                framesList.RemoveAt(0); // Usuń najstarszą ramkę
+            }
+            framesList.Add(frame); // Dodaj nową ramkę
+        }
+
+
         private void SendFrame()
         {
             if (DataGridCollection2.Count > 0)
@@ -276,6 +359,50 @@ namespace CanApp.ViewModels
                 byte[] frame = ConstructFrame(item.ID, item.DLC, item.Bytes);
                 SendFrameToSerialPort(frame);
             }
+        }
+
+        public string SelectedPort
+        {
+            get => _selectedPort;
+            set
+            {
+                if (_selectedPort != value)
+                {
+                    _selectedPort = value;
+                    OnPropertyChanged(nameof(SelectedPort));
+                    // Aktualizuj _serialPort z nowym wybranym portem
+                    UpdateSerialPort(_selectedPort);
+                }
+            }
+        }
+        private void LoadAvailablePorts()
+        {
+            AvailablePorts.Clear();
+            var ports = SerialPort.GetPortNames();
+            if (ports.Any())
+            {
+                foreach (var port in ports)
+                {
+                    AvailablePorts.Add(port);
+                }
+            }
+            else
+            {
+                // Dodaj tę linię tylko dla celów debugowania, aby zobaczyć, czy lista się pojawia
+                AvailablePorts.Add("No COM ports found");
+            }
+        }
+
+        private void UpdateSerialPort(string portName)
+        {
+            if (_serialPort.IsOpen)
+            {
+                _serialPort.Close(); // Zamknij port, jeśli jest otwarty
+            }
+
+            _serialPort.PortName = portName; // Zaktualizuj nazwę portu
+            _serialPort.BaudRate = 115200; // Możesz dostosować te ustawienia do swoich potrzeb
+                                           // Dodaj inne konfiguracje portu szeregowego, jeśli potrzebujesz
         }
 
         private byte[] ConstructFrame(int id, int dlc, byte[] dataBytes)
@@ -317,7 +444,11 @@ namespace CanApp.ViewModels
             SendFrame();
         }
 
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 
@@ -370,6 +501,13 @@ namespace CanApp.ViewModels
                 if (head >= tail) return head - tail + 1;
                 return capacity - tail + head + 1;
             }
+        }
+        public void Clear()
+        {
+            head = 0;
+            tail = 0;
+            isFull = false;
+            Array.Clear(buffer, 0, buffer.Length); // Wyczyszczenie zawartości bufora
         }
     }
 }

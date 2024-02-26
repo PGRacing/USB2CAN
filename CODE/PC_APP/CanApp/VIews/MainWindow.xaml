@@ -97,6 +97,10 @@
             <Button Grid.Column="6"  Grid.Row="4" Content="Upgrade"  Style="{StaticResource MyButtonStyle}"/>
             <Button Grid.Column="6"  Grid.Row="5" Content="More..."  VerticalAlignment="Bottom" Command="{Binding OpenNewWindowCommand}" Style="{DynamicResource MyButtonStyle}" />
 
+            <ComboBox Grid.Column="1" Grid.Row="10" 
+              ItemsSource="{Binding AvailablePorts}"
+              SelectedItem="{Binding SelectedPort}"
+               DisplayMemberPath="." />
 
         </Grid>
     </Border>
