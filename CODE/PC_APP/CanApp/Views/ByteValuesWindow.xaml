@@ -1,0 +1,26 @@
+﻿ <Window x:Class="CanApp.Views.ByteValuesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CanApp.ViewModels"
+        Title="Wartości bajtu" Height="300" Width="300">
+    <Window.Resources>
+        <!-- Definicja DataTemplate dla elementów ListBox -->
+        <DataTemplate x:Key="ByteValueTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding ByteValue}" Margin="5"/>
+                <TextBlock Text="{Binding TimestampString}" Margin="5"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Użycie DataTemplate dla elementów ListBox -->
+        <ListBox  Grid.Row ="0" ItemsSource="{Binding ByteValuesWithTimestamps}" 
+                     ItemTemplate="{StaticResource ByteValueTemplate}"/>
+        <Button Style="{StaticResource MyButtonStyle}" Width="100" Grid.Row ="1" Content="Pokaż wykres" Click="ShowChartWindow" />
+    </Grid>
+</Window>

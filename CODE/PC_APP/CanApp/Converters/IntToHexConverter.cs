@@ -4,18 +4,21 @@ using System.Windows.Data;
 
 namespace CanApp.Converters
 {
-    public class ByteIndexEnabledConverter : IValueConverter
+    public class IntToHexConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int maxBytes = (int)value;
-            int byteIndex = System.Convert.ToInt32(parameter);
-            return byteIndex < maxBytes;
+            if (value is int intValue)
+            {
+                return intValue.ToString("X"); // Format heksadecymalny
+            }
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("Conversion back is not supported.");
+            // Opcjonalnie, jeśli potrzebujesz konwersji w drugą stronę
+            throw new NotImplementedException();
         }
     }
 }

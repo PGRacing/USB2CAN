@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CanApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +12,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using CanApp;
-using CanApp.ViewModels;
 
-namespace CanApp.VIews
+namespace CanApp.Views
 {
-
-    public partial class SecondWindow : Window
+    /// <summary>
+    /// Logika interakcji dla klasy ChartWindow.xaml
+    /// </summary>
+    public partial class ChartWindow : Window
     {
-        public SecondWindow(MyViewModel myViewModel)
+        public ChartWindow(ChartWindowViewModel viewModel)
         {
             InitializeComponent();
-            var viewModel = new SecondWindowViewModel(myViewModel);
-            this.DataContext = viewModel;
+            DataContext = viewModel;
         }
     }
 }

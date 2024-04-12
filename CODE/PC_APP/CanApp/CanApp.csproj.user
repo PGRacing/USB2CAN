@@ -7,12 +7,30 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="VIews\BytesWindow.xaml.cs">
+    <Compile Update="Views\ByteValuesWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ChartWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\DetailsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\BytesWindow.xaml">
+    <Page Update="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ByteValuesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ChartWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\DetailsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

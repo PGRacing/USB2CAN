@@ -4,104 +4,71 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CanApp"
+        xmlns:converters="clr-namespace:CanApp.Converters"
         mc:Ignorable="d"
-        Title="Gui" Height="450" Width="800" Background="#F0F0F0" >
-    <Border BorderBrush="#ADD8E6" BorderThickness="2">
-        <Grid>
-            <!-- Definicje kolumn -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        Title="Can App" Height="450" Width="800">
+    <Window.Resources>
+        <converters:IntToHexConverter x:Key="IntToHexConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding Frames}" 
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID, Converter={StaticResource IntToHexConverter}}" />
+                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" />
+                    <DataGridTextColumn Header="Data" Binding="{Binding DataDisplay}" />
+                    <DataGridTextColumn Header="Timestamp" Binding="{Binding TimestampString}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            
+
+            <DataGrid Grid.Row="2" AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,30,0,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID, Converter={StaticResource IntToHexConverter}}" />
+                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" />
+                    <DataGridTextColumn Header="Data" Binding="{Binding DataDisplay}" />
+                    <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="0" Text="All frames" Style="{StaticResource MyTextBlockStyle}"/>
+            
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,60,0,0">
+                <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource MyButtonStyle}" IsEnabled="{Binding IsStartEnabled}" Margin="0,0,10,0"/>
+                <Button Content="Stop" Command="{Binding StopCommand}" Style="{StaticResource MyButtonStyle}" IsEnabled="{Binding IsStopEnabled}" Margin="0,0,10,0"/>
+                <Button Content="Clear" Command="{Binding ClearFramesCommand}" Style="{StaticResource MyButtonStyle}" Margin="0,0,10,0"/>
+            </StackPanel>
 
-            <DataGrid x:Name="DataGrid1" AutoGenerateColumns="False" EnableRowVirtualization="True" EnableColumnVirtualization="True"
-          ItemsSource="{Binding DataGridCollection1}" Style="{StaticResource MyDataGridStyle}"
-          Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="11"
-          CanUserSortColumns="True" CanUserAddRows="False" CanUserDeleteRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding HexID}" Width="Auto" SortMemberPath="ID"/>
-                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="Auto"/>
-                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes, Converter={StaticResource ByteArrayToStringConverter}}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-
-            <Button Grid.Column="7"  Grid.Row="12" Content="Open" Command="{Binding OpenPortCommand}" Style="{StaticResource MyButtonStyle}" />
-            <Button Grid.Column="8"  Grid.Row="12" Content="Save" Command="{Binding ExportToCsvCommand}" Style="{StaticResource MyButtonStyle}"/>
-            <Button Grid.Column="9"  Grid.Row="12" Content="Clear" Command="{Binding ClearDataGridCommand}" CommandParameter="DataGrid1" Style="{StaticResource MyButtonStyle}" />
-            <Button Grid.Column="10"  Grid.Row="12" Content="Close" Command="{Binding ClosePortCommand}" Style="{DynamicResource MyButtonStyle}" />
-
-
-            <TextBlock Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="13" Text="Transmit" Style="{StaticResource MyTextBlockStyle}" />
-
-            <DataGrid x:Name="DataGrid2" ItemsSource="{Binding DataGridCollection2}" CellEditEnding="DataGrid_CellEditEnding" Style="{StaticResource MyDataGridStyle}" Grid.Column="7" Grid.ColumnSpan="4" Grid.Row="14"  Grid.RowSpan ="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="*"/>
-                    <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" Width="*"/>
-                    <DataGridTextColumn Header="Bytes" Binding="{Binding Bytes}" Width="4*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <Button Grid.Column="8"  Grid.Row="19" Content="Clear" Command="{Binding ClearDataGridCommand}" CommandParameter="DataGrid2" Style="{StaticResource MyButtonStyle}"/>
-            <Button Grid.Column="9"  Grid.Row="19" Content="Send" Command="{Binding SendFrameCommand}" Style="{StaticResource MyButtonStyle}"/>
-
-            <TextBlock Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="0" Text="Devices" Style="{StaticResource MyTextBlockStyle}"/>
-
-            <DataGrid x:Name="DataGrid3" ItemsSource="{Binding DataGridCollection3}" Style="{StaticResource MyDataGridStyle}"  Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Type" Binding="{Binding ID}" Width="4*" SortMemberPath="ID" CanUserSort="True"/>
-                    <DataGridTextColumn Header="Rev" Binding="{Binding DLC}" Width="*"/>
-                    <DataGridTextColumn Header="Serial number" Binding="{Binding Bytes}" Width="3*"/>
-                    <DataGridTextColumn Header="Firmware" Binding="{Binding Freq}" Width="3*"/>
-                    <DataGridTextColumn Header="Comment" Binding="{Binding Count}" Width="3*"/>
-                    <DataGridTextColumn Header="Info" Binding="{Binding Tx}" Width="10*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <Button Grid.Column="6"  Grid.Row="1" Content="Refresh" VerticalAlignment="Top" Style="{StaticResource MyButtonStyle}"/>
-            <Button Grid.Column="6"  Grid.Row="2" Content="Set comment" Style="{StaticResource MyButtonStyle}" />
-            <Button Grid.Column="6"  Grid.Row="3" Content="User manual"  Style="{DynamicResource MyButtonStyle}" />
-            <Button Grid.Column="6"  Grid.Row="4" Content="Upgrade"  Style="{StaticResource MyButtonStyle}"/>
-            <Button Grid.Column="6"  Grid.Row="5" Content="More..."  VerticalAlignment="Bottom" Command="{Binding OpenNewWindowCommand}" Style="{DynamicResource MyButtonStyle}" />
-
-            <ComboBox Grid.Column="1" Grid.Row="10" 
-              ItemsSource="{Binding AvailablePorts}"
-              SelectedItem="{Binding SelectedPort}"
-               DisplayMemberPath="." />
-
+            
+            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+                <ComboBox ItemsSource="{Binding AvailablePorts}" SelectedItem="{Binding SelectedPort}" Width="80" Margin="0,0,0,10"/>
+                <TextBox Text="{Binding MaxFrames, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="0,20,0,0"/>
+                <Button Content="More..." Command="{Binding ShowDetailsCommand}" Style="{StaticResource MyButtonStyle}" Margin="0,20,0,0"/>
+            </StackPanel>
         </Grid>
-    </Border>
+    </Grid>
 </Window>
