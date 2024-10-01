@@ -1,0 +1,98 @@
+﻿<Window x:Class="kolejna_proba.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Odbiornik CAN" Height="600" Width="800">
+    <Window.Resources>
+        <!-- Style dla przycisków -->
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#005A9E"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Style dla TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#888"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <!-- Style dla Label -->
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Sekcja ustawień połączenia -->
+        <GroupBox Header="Połączenie" Grid.Row="0" Margin="0,0,0,10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Port:"/>
+                <ComboBox x:Name="comboBoxPorts" Width="100" Margin="5" Grid.Column="1"/>
+                <Button Content="Start" Click="StartButton_Click" Width="75" Grid.Column="2"/>
+                <Button Content="Stop" Click="StopButton_Click" Width="75" Grid.Column="3" Margin="5,0,0,0"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="4" Margin="10,0,0,0">
+                    <Label Content="Max ramek:"/>
+                    <TextBox x:Name="textBoxMaxFrames" Width="50" Text="1000" PreviewTextInput="textBoxMaxFrames_PreviewTextInput"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <!-- Sekcja wysyłania ramek -->
+        <GroupBox Header="Wysyłanie ramki" Grid.Row="1" Margin="0,0,0,10">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="ID (hex):"/>
+                <TextBox x:Name="textBoxFrameID" Grid.Column="1" ToolTip="Wprowadź ID ramki w formacie szesnastkowym"/>
+                <Label Content="Data (hex):" Grid.Column="2" Margin="10,0,0,0"/>
+                <TextBox x:Name="textBoxFrameData" Grid.Column="3" ToolTip="Wprowadź dane jako bajty szesnastkowe, oddzielone spacjami lub przecinkami"/>
+                <Button Content="Wyślij" Click="SendButton_Click" Width="75" Grid.Column="4" Margin="10,0,0,0"/>
+                <Button Content="Ramki według ID" Click="OpenFramesByIdWindow_Click" Width="120" Grid.Column="5" Margin="10,0,0,0"/>
+            </Grid>
+        </GroupBox>
+        <!-- Tabela z odebranymi ramkami -->
+        <DataGrid x:Name="dataGridFrames" AutoGenerateColumns="False" IsReadOnly="True" EnableRowVirtualization="True" Grid.Row="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Sequence ID" Binding="{Binding SequenceId}" Width="100"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding TimeFormatted}" Width="150"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="100"/>
+                <DataGridTextColumn Header="Data" Binding="{Binding DataString}" Width="*"/>
+                <!-- Możesz dodać inne kolumny według potrzeb -->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
