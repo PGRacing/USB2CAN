@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CAN Monitor</string>
+  </property>
+  <property name="styleSheet">
+   <string>
+    QMainWindow {
+        background-color: #f0f0f0;
+    }
+    QGroupBox {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        margin-top: 1em;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        subcontrol-position: top center;
+        padding: 0 3px;
+        color: #333333;
+        font-weight: bold;
+    }
+    QLabel {
+        font-size: 11pt;
+        color: #333333;
+    }
+    QComboBox, QSpinBox, QLineEdit {
+        background-color: #ffffff;
+    }
+    QPushButton {
+        background-color: #4CAF50;
+        color: #ffffff;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
+    QPushButton:hover {
+        background-color: #45a049;
+    }
+    QTableView {
+        background-color: #ffffff;
+        gridline-color: #cccccc;
+        selection-background-color: #d0e7ff;
+    }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="statusLabel">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>560</y>
+      <width>900</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gotowy</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="portSettingsGroup">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>250</width>
+      <height>180</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Ustawienia portu</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayoutPort">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoutPorts">
+       <item>
+        <widget class="QLabel" name="labelPort">
+         <property name="text">
+          <string>Port COM:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxPorts"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoutBaud">
+       <item>
+        <widget class="QLabel" name="labelBaud">
+         <property name="text">
+          <string>Baud Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxBaudRate">
+         <property name="currentText">
+          <string>2000000</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>9600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>57600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>74880</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>115200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>230400</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>250000</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>500000</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>1000000</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2000000</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoutMaxRows">
+       <item>
+        <widget class="QLabel" name="labelMaxRows">
+         <property name="text">
+          <string>Liczba wierszy:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="maxRowsSpinBox">
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="value">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoutPortButtons">
+       <item>
+        <widget class="QPushButton" name="openPortButton">
+         <property name="text">
+          <string>Otwórz Port</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="closePortButton">
+         <property name="text">
+          <string>Zamknij port</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveFramesButton">
+       <property name="text">
+        <string>Zapisz ramki</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="frameActionsGroup">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>250</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Wysyłanie i filtracja ramek</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayoutFrames">
+     <item>
+      <widget class="QPushButton" name="filterButton">
+       <property name="text">
+        <string>Filtruj po ID</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoutSendFrame">
+       <item>
+        <widget class="QLineEdit" name="frameIDLineEdit">
+         <property name="text">
+          <string> ID (np.100)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="frameDataLineEdit">
+         <property name="text">
+          <string>dane (np.0A)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sendFrameButton">
+         <property name="text">
+          <string>Wyślij</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QTableView" name="tableViewFrames">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>0</y>
+      <width>600</width>
+      <height>561</height>
+     </rect>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
