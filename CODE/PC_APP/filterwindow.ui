@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FilterWindow</class>
+ <widget class="QDialog" name="FilterWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>792</width>
+    <height>509</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Filtracja i Podgląd Ramek</string>
+  </property>
+  <property name="styleSheet">
+   <string>
+    QDialog {
+        background-color: #f0f0f0;
+    }
+    QGroupBox {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        margin-top: 1em;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        subcontrol-position: top center;
+        padding: 0 3px;
+        color: #333333;
+        font-weight: bold;
+    }
+    QTableView {
+        background-color: #ffffff;
+        gridline-color: #cccccc;
+        selection-background-color: #d0e7ff;
+    }
+    QListWidget {
+        background-color: #ffffff;
+    }
+    QPushButton {
+        background-color: #4CAF50;
+        color: #ffffff;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
+    QPushButton:hover {
+        background-color: #45a049;
+    }
+   </string>
+  </property>
+  <widget class="QGroupBox" name="idGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>256</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Lista ID Ramek</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayoutID">
+    <item>
+     <widget class="QListWidget" name="idListWidget"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="framesGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>511</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Ramy Danych</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayoutFrames">
+    <item>
+     <widget class="QTableView" name="frameTableView"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="dataButtonsGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>445</y>
+     <width>511</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Dostępne Dane</string>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayoutButtons">
+    <item>
+     <widget class="QPushButton" name="dataButton1">
+      <property name="text">
+       <string>Data1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton2">
+      <property name="text">
+       <string>Data2</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton3">
+      <property name="text">
+       <string>Data3</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton4">
+      <property name="text">
+       <string>Data4</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton5">
+      <property name="text">
+       <string>Data5</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton6">
+      <property name="text">
+       <string>Data6</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton7">
+      <property name="text">
+       <string>Data7</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="dataButton8">
+      <property name="text">
+       <string>Data8</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
